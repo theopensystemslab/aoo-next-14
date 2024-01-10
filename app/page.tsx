@@ -1,12 +1,18 @@
-import React from "react"
-import { client } from "./utils/sanity/client"
-import { entriesQuery } from "./utils/sanity/queries"
-import { Entry } from "./utils/sanity/types"
+import Link from "next/link"
+import { getEntries } from "./utils/sanity/queries"
+import { Fragment } from "react"
 
 const AppIndexPage = async () => {
-  const posts = await client.fetch<Entry[]>(entriesQuery)
+  const entries = await getEntries()
 
-  return <div>{JSON.stringify(posts, null, 2)}</div>
+  return (
+    <Fragment>
+      <div>{JSON.stringify(entries, null, 2)}</div>
+      <div className="absolute bottom-0 right-0 z-50 bg-red-500">
+        <Link href={`./entry/new-communities`}>CLICK ME</Link>
+      </div>
+    </Fragment>
+  )
 }
 
 export default AppIndexPage
