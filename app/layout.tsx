@@ -1,5 +1,5 @@
 // import { useRouter } from "next/router"
-import MapboxGlobe from "./ui/MapboxGlobe"
+import MapboxGlobe from "./ui/map/MapboxGlobe"
 import "./globals.css"
 import { getEntries } from "./utils/sanity/queries"
 // import Footer from "../Footer"

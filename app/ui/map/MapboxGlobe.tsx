@@ -7,11 +7,11 @@ import Map, {
   MapLayerMouseEvent,
   Source,
 } from "react-map-gl"
-import { Entry, TenureType } from "../utils/sanity/types"
-import store from "../utils/store"
+import { Entry, TenureType } from "../../utils/sanity/types"
+import store from "../../utils/store"
 import { ref } from "valtio"
 import { pipe } from "fp-ts/lib/function"
-import { A, O, S } from "../utils/fp"
+import { A, O, S } from "../../utils/fp"
 import { useMemo } from "react"
 import {
   Feature,
@@ -19,7 +19,8 @@ import {
   GeoJsonProperties,
   Geometry,
 } from "geojson"
-import { useSelection } from "./sidebar/selection"
+import { useSelection } from "../sidebar/selection"
+import Markers from "./Markers"
 
 const MapboxGlobe = ({ entries }: { entries: Entry[] }) => {
   const sourceId = "entries"
@@ -190,7 +191,7 @@ const MapboxGlobe = ({ entries }: { entries: Entry[] }) => {
         <Layer {...clusterCountLayer} />
         <Layer {...unclusteredPointLayer} />
       </Source>
-      {/* <Markers entries={entries} /> */}
+      <Markers entries={entries} />
       <AttributionControl position="bottom-left" />
     </Map>
   )
