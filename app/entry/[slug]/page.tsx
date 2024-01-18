@@ -37,8 +37,6 @@ export async function generateMetadata(
   // fetch data
   const entry = await getEntry(slug)
 
-  console.log(entry)
-
   const { name: title, mainImage } = entry
 
   return {

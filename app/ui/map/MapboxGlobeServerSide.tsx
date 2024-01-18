@@ -6,6 +6,7 @@ import {
   getPatternClasses,
   getPatterns,
 } from "@/app/utils/sanity/queries"
+import "mapbox-gl/dist/mapbox-gl.css"
 
 const MapboxGlobeServerSide = async () => {
   const entries = await getEntries()

@@ -1,14 +1,13 @@
-import { pipe } from "fp-ts/lib/function"
-import Link from "next/link"
-import React, { Fragment } from "react"
-import { A, NEA } from "@/app/utils/fp"
-import store, { useStore } from "@/app/utils/store"
+"use client"
+import "client-only"
 import { Entry, Pattern, PatternClass } from "@/app/utils/sanity/types"
+import store from "@/app/utils/store"
+import Link from "next/link"
 // import Chart from "../Chart"
-import { useState } from "react"
-import { MapboxEvent, Marker as MapboxMarker, Popup } from "react-map-gl"
-import { ArrowRight } from "@carbon/icons-react"
 import { getFormattedTenureTypes } from "@/app/utils/sanity/entry"
+import { ArrowRight } from "@carbon/icons-react"
+import { useState } from "react"
+import { Marker as MapboxMarker, Popup } from "react-map-gl"
 import Chart from "../../chart/Chart"
 // import { useGetEntryFromSlug } from "@/lib/queries"
 // import _ from "lodash"
@@ -36,7 +35,7 @@ const Marker = (props: Props) => {
       <span className="text-base">
         {getFormattedTenureTypes(entry?.tenureType)}
       </span>
-      {entry?.terms?.length && (
+      {entry.terms?.length && (
         <Chart
           rollupToPatternClass={true}
           showLabels={true}
@@ -79,7 +78,7 @@ const Marker = (props: Props) => {
           setShowPopup(!showPopup)
         }}
       >
-        <div className="bg-white rounded-full h-7 w-7 flex justify-center items-center">
+        <div className="bg-white text-black rounded-full h-7 w-7 flex justify-center items-center">
           1
         </div>
       </MapboxMarker>

@@ -1,3 +1,4 @@
+import "client-only"
 import { EntryType, Pattern, TenureType } from "@/app/utils/sanity/types"
 import { proxy, useSnapshot } from "valtio"
 

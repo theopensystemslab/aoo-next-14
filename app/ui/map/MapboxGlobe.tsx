@@ -174,6 +174,7 @@ const MapboxGlobe = ({
       }
     )
   }
+
   return (
     <Map
       ref={(mapRef) => {
