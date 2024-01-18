@@ -3,44 +3,32 @@ import Link from "next/link"
 import React, { Fragment } from "react"
 import { A, NEA } from "@/app/utils/fp"
 import store, { useStore } from "@/app/utils/store"
-import { Entry } from "@/app/utils/sanity/types"
+import { Entry, Pattern, PatternClass } from "@/app/utils/sanity/types"
 // import Chart from "../Chart"
 import { useState } from "react"
 import { MapboxEvent, Marker as MapboxMarker, Popup } from "react-map-gl"
 import { ArrowRight } from "@carbon/icons-react"
 import { getFormattedTenureTypes } from "@/app/utils/sanity/entry"
-import Chart from "../Chart"
+import Chart from "../../chart/Chart"
 // import { useGetEntryFromSlug } from "@/lib/queries"
 // import _ from "lodash"
 // import { getFormattedTenureTypes } from "@/lib/entry"
 
-type MarkersProps = {
-  entries: Entry[]
-}
-
-type MarkerProps = {
+type Props = {
   // slug: string
   entry: Entry
+  patterns: Pattern[]
+  patternClasses: PatternClass[]
   lat: number
   lng: number
 }
 
-const Marker = (props: MarkerProps) => {
-  const { lat, lng, entry } = props
+const Marker = (props: Props) => {
+  const { lat, lng, entry, patterns, patternClasses } = props
 
   const slug = entry.slug?.current ?? ""
 
   const [showPopup, setShowPopup] = useState<boolean>(false)
-
-  const onMarkerClick = (e: MapboxEvent<MouseEvent>) => {
-    store.map?.flyTo({
-      center: { lat, lng },
-      padding: { top: 500, bottom: 0, left: 0, right: 0 },
-      zoom: 18,
-    })
-    e.originalEvent.stopPropagation()
-    setShowPopup(!showPopup)
-  }
 
   const PopupContent = () => (
     <div className="w-[320px] sm:w-[500px]">
@@ -81,7 +69,15 @@ const Marker = (props: MarkerProps) => {
         key={slug}
         longitude={lng}
         latitude={lat}
-        onClick={onMarkerClick}
+        onClick={(e) => {
+          store.map?.flyTo({
+            center: { lat, lng },
+            padding: { top: 500, bottom: 0, left: 0, right: 0 },
+            zoom: 18,
+          })
+          e.originalEvent.stopPropagation()
+          setShowPopup(!showPopup)
+        }}
       >
         <div className="bg-white rounded-full h-7 w-7 flex justify-center items-center">
           1
@@ -103,35 +99,4 @@ const Marker = (props: MarkerProps) => {
   )
 }
 
-const Markers = (props: MarkersProps) => {
-  const { entries = [] } = props
-
-  const slugEntries = pipe(
-    entries,
-    A.filter((x) => !!x.slug?.current),
-    NEA.groupBy((entry) => {
-      if (!entry.slug?.current) throw new Error("")
-      else return entry.slug.current
-    })
-  )
-
-  const { unclusteredSlugs } = useStore()
-
-  return (
-    <Fragment>
-      {pipe(
-        unclusteredSlugs,
-        A.map((slug) => {
-          const entry = slugEntries[slug][0]
-          const {
-            geopoint: { lat, lng },
-          } = entry.location ?? { geopoint: { lat: 0, lng: 0 } }
-
-          return <Marker key={slug} lat={lat} lng={lng} slug={slug} />
-        })
-      )}
-    </Fragment>
-  )
-}
-
-export default Markers
+export default Marker

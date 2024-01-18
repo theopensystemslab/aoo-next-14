@@ -1,7 +1,7 @@
 // import { pipe } from "fp-ts/lib/function"
 import { groq } from "next-sanity"
 import { client } from "./client"
-import { Entry } from "./types"
+import { Entry, Pattern, PatternClass } from "./types"
 // import { O, RA } from "./fp"
 // import { trpc } from "./trpc"
 // import { Entry } from "./types"
@@ -33,7 +33,14 @@ export const entryQuery = (slug: string) =>
 export const getEntry = (slug: string) => client.fetch<Entry>(entryQuery(slug))
 
 export const patternsQuery = groq`*[_type == "pattern"] {..., "iconUrl": icon.asset -> url} `
+
+export const getPatterns = () => client.fetch<Pattern[]>(patternsQuery)
+
 export const patternClassesQuery = groq`*[_type == "patternClass"] | order(order)`
+
+export const getPatternClasses = () =>
+  client.fetch<PatternClass[]>(patternClassesQuery)
+
 export const patternsWithClassQuery = groq`
   *[_type == "pattern"]
   {..., class -> , "iconUrl": icon.asset -> url}
