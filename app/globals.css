@@ -2,26 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --color-eligibility: 255 97 118;
+    --color-security: 255 119 111;
+    --color-access: 255 163 55;
+    --color-use: 250 255 0;
+    --color-develop: 210 249 100;
+    --color-stewardship: 145 236 102;
+    --color-transfer: 135 212 255;
+    --color-rent: 177 150 254;
+    --color-administration: 226 226 226;
   }
 }
 
+html,
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  @apply hover:underline cursor-pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/* 
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+} */
+
+.mapboxgl-popup-content {
+  border-radius: 0;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: x-large;
+  padding-right: 6px;
+}
+
+.mapboxgl-ctrl-bottom-left {
+  @apply w-full flex justify-between flex-row-reverse;
+}
+
+@screen sm {
+  /* Display attribution beneath Mapbox logo */
+  .mapboxgl-ctrl-bottom-left {
+    @apply w-auto flex flex-col-reverse;
+  }
+}
+
+.title {
+  @apply text-2xl;
+}
+
+@screen sm {
+  .title {
+    font-size: 50px;
+    line-height: 52.5px;
+    letter-spacing: -0.03em;
+  }
 }
