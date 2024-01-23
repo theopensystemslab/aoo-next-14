@@ -1,6 +1,7 @@
 // import { useRouter } from "next/router"
 import "./globals.css"
 import EntryPopout from "./ui/EntryPopout"
+import Footer from "./ui/footer/Footer"
 import MapboxGlobeServerSide from "./ui/map/MapboxGlobeServerSide"
 // import Footer from "../Footer"
 // import Header from "../Header"
@@ -19,7 +20,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
             {/* <MapboxGlobe {...{ entries }} /> */}
             {/* <SubmitButton /> */}
           </div>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </div>
     </body>
