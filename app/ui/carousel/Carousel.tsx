@@ -16,7 +16,7 @@ const CarouselItem = (props: {
   cardClassNames: string | undefined
 }) => {
   return (
-    <Link href={`/entry/${props.item.slug?.current}`}>
+    <Link href={`/entry/${props.item.slug?.current}`} legacyBehavior>
       <a className={clsx(css.card, props.cardClassNames)}>
         <div className="flex flex-col justify-between">
           <div className="flex justify-between w-full">

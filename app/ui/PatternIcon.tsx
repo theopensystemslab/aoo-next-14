@@ -27,14 +27,14 @@ const FallbackIcon = (props: PatternIconProps) => (
 
 export const PatternIcon = (props: PatternIconProps) => {
   const { pattern, size, className } = props
+
   return pattern.iconUrl ? (
     <div className={`flex items-center justify-center ${className}`}>
       <Image
         priority
         src={pattern.iconUrl}
-        // height={size}
-        // width={size}
         alt={`${pattern.name} icon`}
+        {...(size ? { height: Number(size), width: Number(size) } : {})}
       />
     </div>
   ) : (

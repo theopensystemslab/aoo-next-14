@@ -1,28 +1,36 @@
 import { O } from "@/app/utils/fp"
-import { getEntry } from "@/app/utils/sanity/queries"
-import { Entry } from "@/app/utils/sanity/types"
+import {
+  getEntry,
+  getPatternClasses,
+  getPatterns,
+} from "@/app/utils/sanity/queries"
 import { pipe } from "fp-ts/lib/function"
 import { Metadata, ResolvingMetadata } from "next"
-
-const OnNull = () => null
-
-const EntryComponent = ({ entry }: { entry: Entry }) => {
-  return <div>{JSON.stringify(entry, null, 2)}</div>
-}
+import EntryClientComponent from "./EntryClientComponent"
 
 type Props = {
   params: { slug: string }
 }
 
-const EntryPage = async ({ params: { slug } }: Props) => {
+const EntryServerComponent = async ({ params: { slug } }: Props) => {
   const entry = await getEntry(slug)
+  const patterns = await getPatterns()
+  const patternClasses = await getPatternClasses()
+
+  const OnNull = () => null
 
   return pipe(
     entry,
     O.fromNullable,
     O.match(
       () => <OnNull />,
-      (entry) => <EntryComponent entry={entry} />
+      (entry) => (
+        <EntryClientComponent
+          entry={entry}
+          patterns={patterns}
+          patternClasses={patternClasses}
+        />
+      )
     )
   )
 }
@@ -52,4 +60,4 @@ export async function generateMetadata(
   }
 }
 
-export default EntryPage
+export default EntryServerComponent
