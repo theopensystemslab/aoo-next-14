@@ -1,0 +1,10 @@
+.link {
+  @apply hidden;
+}
+
+@screen md {
+
+  .link {
+    @apply m-2 block;
+  }
+}
