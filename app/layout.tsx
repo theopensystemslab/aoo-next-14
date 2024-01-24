@@ -3,6 +3,7 @@ import "./globals.css"
 import EntryPopout from "./ui/EntryPopout"
 import Footer from "./ui/footer/Footer"
 import MapboxGlobeServerSide from "./ui/map/MapboxGlobeServerSide"
+import Sidebar from "./ui/sidebar/Sidebar"
 // import Footer from "../Footer"
 // import Header from "../Header"
 // import Sidebar from "../sidebar/Sidebar"
@@ -11,7 +12,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en">
     <body>
       <div className="min-w-full fixed inset-0 overflow-y-auto overflow-x-hidden">
-        {/* <Sidebar /> */}
+        <Sidebar />
         <EntryPopout>{children}</EntryPopout>
         <div className="min-w-full fixed inset-0 overflow-y-auto overflow-x-hidden">
           {/* <Header /> */}

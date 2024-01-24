@@ -46,6 +46,9 @@ export const patternsWithClassQuery = groq`
   {..., class -> , "iconUrl": icon.asset -> url}
   [ count(*[_type == "entry" && references(^._id)]) > 0] | order(order)`
 
+export const getPatternsWithClass = () =>
+  client.fetch<Pattern[]>(patternsWithClassQuery)
+
 // export const useGetEntryFromSlug = () => {
 //   const { data: entries } = trpc.entries.useQuery()
 

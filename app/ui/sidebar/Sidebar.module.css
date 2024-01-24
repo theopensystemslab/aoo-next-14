@@ -1,0 +1,17 @@
+.root {
+  @apply absolute z-10 top-0 bottom-0 bg-black;
+}
+
+.chevvy {
+  @apply bg-white;
+  @apply cursor-pointer;
+}
+
+.chevvy > div {
+  @apply bg-inherit;
+  @apply flex justify-end px-1 py-2;
+}
+
+.chevvy + div {
+  @apply pt-0
+}
