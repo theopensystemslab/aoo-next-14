@@ -1,4 +1,13 @@
 "use client"
+import { pipe } from "fp-ts/lib/function"
+import {
+  Feature,
+  FeatureCollection,
+  GeoJsonProperties,
+  Geometry,
+} from "geojson"
+import { usePathname } from "next/navigation"
+import { useEffect, useMemo } from "react"
 import Map, {
   AttributionControl,
   GeoJSONSource,
@@ -7,6 +16,8 @@ import Map, {
   MapLayerMouseEvent,
   Source,
 } from "react-map-gl"
+import { ref } from "valtio"
+import { A, O, S } from "../../utils/fp"
 import {
   Entry,
   Pattern,
@@ -14,16 +25,6 @@ import {
   TenureType,
 } from "../../utils/sanity/types"
 import store from "../../utils/store"
-import { ref } from "valtio"
-import { pipe } from "fp-ts/lib/function"
-import { A, O, S } from "../../utils/fp"
-import { useMemo } from "react"
-import {
-  Feature,
-  FeatureCollection,
-  GeoJsonProperties,
-  Geometry,
-} from "geojson"
 import { useSelection } from "../sidebar/selection"
 import Markers from "./markers/Markers"
 
@@ -174,6 +175,13 @@ const MapboxGlobe = ({
       }
     )
   }
+
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (pathname === "/") store.map?.flyTo(store.lastBirdseyeViewState)
+    // TODO: could set last viewState per zoom threshold?
+  }, [pathname])
 
   return (
     <Map
