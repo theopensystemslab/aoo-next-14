@@ -35,9 +35,12 @@ export const PatternIcon = (props: PatternIconProps) => {
         src={pattern.iconUrl}
         alt={`${pattern.name} icon`}
         {...(size ? { height: Number(size), width: Number(size) } : {})}
-      />
+        style={{
+          maxWidth: "100%",
+          height: "auto"
+        }} />
     </div>
   ) : (
     <FallbackIcon {...props} />
-  )
+  );
 }

@@ -12,16 +12,19 @@ const FooterLogos = async () => {
           footerLogos.map((footerLogo) => (
             <Image
               key={footerLogo._id}
-              objectFit="contain"
               height="100"
               width="200"
               src={footerLogo.logo.asset.url}
               alt={footerLogo.description}
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                objectFit: "contain"
+              }} />
           ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default FooterLogos
