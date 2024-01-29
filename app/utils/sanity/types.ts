@@ -1,3 +1,5 @@
+import { PortableTextBlock } from "@portabletext/types"
+
 export type Geopoint = {
   lat: number
   lng: number
@@ -58,7 +60,7 @@ export type Tag = {
 export type Entry = {
   _id?: string
   name?: string
-  description?: string
+  content?: PortableTextBlock[]
   location?: Location
   dates?: {
     start?: string

@@ -6,6 +6,7 @@ import { Entry } from "@/app/utils/sanity/types"
 import { Tag } from "@carbon/icons-react"
 import EntryItem from "./EntryItem"
 import EntryReferences from "./EntryReferences"
+import EntryPortableText from "./EntryPortableText"
 
 const EntryDetails = (entry?: Entry) => (
   <div className="bg-white text-black grid grid-cols-4 grid-rows-auto gap-x-4 gap-y-1 sm:gap-y-6 p-8">
@@ -22,9 +23,7 @@ const EntryDetails = (entry?: Entry) => (
       heading={getFormattedEntryDates(entry?.dates)}
     />
     <EntryItem heading="" className="col-span-4">
-      <p className="text-sm mt-4 sm:mt-0 mb-1 sm:mb-2 whitespace-pre-wrap">
-        {entry?.description}
-      </p>
+      <EntryPortableText value={entry?.content ?? []} />
     </EntryItem>
     {entry?.references?.length && (
       <EntryItem heading="More information" className="col-span-2">

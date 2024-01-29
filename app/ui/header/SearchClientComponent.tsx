@@ -28,7 +28,12 @@ const SearchResult = ({
       <Link href={`/entry/${entry.slug?.current}`} onClick={onClick}>
         <div>
           <h1>{entry.name}</h1>
-          <p>{truncate(entry.description, { length: 280, separator: " " })}</p>
+          <p>
+            {truncate(entry?.content?.[0].children[0].text ?? "", {
+              length: 280,
+              separator: " ",
+            })}
+          </p>
         </div>
       </Link>
     </div>

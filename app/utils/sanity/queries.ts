@@ -14,7 +14,8 @@ export const entriesQuery = groq`
     mainImage {..., file {..., asset-> } },
     'patterns': terms[].pattern->{ name },
     terms[]{ ..., termLegalMechanisms[]-> }
-  }`
+  }
+`
 
 export const getEntries = () => client.fetch<Entry[]>(entriesQuery)
 
