@@ -1,18 +1,18 @@
-import css from "./Carousel.module.css"
-import { ArrowRight } from "@carbon/icons-react"
 import { getFormattedEntryDates } from "@/app/utils/sanity/entry"
-import Link from "next/link"
+import { CarouselEntry } from "@/app/utils/sanity/types"
+import { ArrowRight } from "@carbon/icons-react"
 import clsx from "clsx"
-import { CarouselItem } from "@/app/utils/sanity/types"
+import Link from "next/link"
+import css from "./Carousel.module.css"
 
 export interface CarouselProps {
-  data?: CarouselItem[]
+  data?: CarouselEntry[]
   title: string
   cardClassNames?: string
 }
 
 const CarouselItem = (props: {
-  item: CarouselItem
+  item: CarouselEntry
   cardClassNames: string | undefined
 }) => {
   return (

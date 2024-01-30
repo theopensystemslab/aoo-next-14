@@ -1,7 +1,8 @@
 // import { pipe } from "fp-ts/lib/function"
 import { groq } from "next-sanity"
 import { client } from "./client"
-import { Entry, Pattern, PatternClass } from "./types"
+import { CarouselEntry, Entry, Pattern, PatternClass } from "./types"
+import { flow } from "fp-ts/lib/function"
 // import { O, RA } from "./fp"
 // import { trpc } from "./trpc"
 // import { Entry } from "./types"
@@ -85,7 +86,7 @@ export const patternInfoQuery = groq`
   } | order(order)
 `
 
-export const tenureTypeQuery = (
+export const relatedEntriesByTenureTypeQuery = (
   tenureTypes: string[] | undefined,
   id: string | undefined
 ) => groq`
@@ -94,13 +95,24 @@ export const tenureTypeQuery = (
   { dates, slug, location, name, _id }
 `
 
-export const entriesByPatternIdQuery = (
+export const getRelatedEntriesByTenureQuery = flow(
+  relatedEntriesByTenureTypeQuery,
+  (q) => client.fetch<CarouselEntry[]>(q)
+)
+
+export const relatedEntriesByPatternQuery = (
   patternId: string | undefined,
   entryId: string | undefined
 ) => groq`
     *[_type == "entry" && references("${patternId}") && _id != "${entryId}"]
     { dates, slug, location, name, _id }
 `
+
+export const getRelatedEntriesByPattern = flow(
+  relatedEntriesByPatternQuery,
+  (q) => client.fetch<CarouselEntry[]>(q)
+)
+
 export const contributorsQuery = groq`array::unique(*[_type == "entry" && defined(contributors)].contributors[].name)`
 
 export const getContributors = () => client.fetch<string[]>(contributorsQuery)

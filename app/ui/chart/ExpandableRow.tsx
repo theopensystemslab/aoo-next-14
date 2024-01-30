@@ -1,28 +1,28 @@
-import { CarouselItem } from "@/app/utils/sanity/types"
-import {
-  backgroundColorClasses,
-  descriptionBackgroundColorClasses,
-} from "./styles"
+import { CarouselEntry } from "@/app/utils/sanity/types"
 import { ChevronUp } from "@carbon/icons-react"
 import clsx from "clsx"
 import { PatternIcon } from "../PatternIcon"
 import { Tag } from "../Tag"
 import { Carousel } from "../carousel/Carousel"
+import {
+  backgroundColorClasses,
+  descriptionBackgroundColorClasses,
+} from "./styles"
 
 interface Props {
-  carouselItems: CarouselItem[]
+  carouselEntries: CarouselEntry[]
   term?: any
   entryId?: string
   onClick: () => void
 }
 
 const ExpandableRow = (props: Props) => {
-  const { term, onClick, entryId, carouselItems } = props
+  const { term, onClick, entryId, carouselEntries } = props
 
   // const { data: carouselItems, error: carouselItemsError } =
   //   trpc.entriesByPatternId.useQuery({ patternId: term.meta._id, entryId })
 
-  const showCarousel = carouselItems && carouselItems.length > 0
+  const showCarousel = carouselEntries && carouselEntries.length > 0
 
   return (
     <div
@@ -80,7 +80,7 @@ const ExpandableRow = (props: Props) => {
       </div>
       {showCarousel && (
         <Carousel
-          data={carouselItems}
+          data={carouselEntries}
           title="Other places that use this pattern"
           cardClassNames={clsx(
             `${backgroundColorClasses[term.patternClassName]} bg-opacity-20`

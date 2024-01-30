@@ -8,7 +8,7 @@ import EntryDetails from "./EntryDetails"
 import EntryHeader from "./EntryHeader"
 import { useWindowDimensions } from "@/app/utils/dom"
 import {
-  CarouselItem,
+  CarouselEntry,
   Entry,
   Pattern,
   PatternClass,
@@ -20,13 +20,13 @@ import "client-only"
 const DEBUG_CHARTS = false
 type Props = {
   entry?: Entry
-  carouselItems?: CarouselItem[]
+  carouselEntries?: CarouselEntry[]
   patterns: Pattern[]
   patternClasses: PatternClass[]
 }
 
 const EntryClientComponent = (props: Props) => {
-  const { entry, carouselItems, patterns, patternClasses } = props
+  const { entry, carouselEntries, patterns, patternClasses } = props
   const [showRollup, setShowRollup] = useState(false)
 
   const { width } = useWindowDimensions()

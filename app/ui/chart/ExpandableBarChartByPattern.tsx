@@ -1,8 +1,8 @@
 import ExpandableRow from "./ExpandableRow"
 import { useState } from "react"
-import { CarouselItem } from "../../utils/sanity/types"
 import { PatternIcon } from "../PatternIcon"
 import { backgroundColorClasses, hoverColorClasses } from "./styles"
+import { CarouselEntry } from "@/app/utils/sanity/types"
 
 interface ExpandableBarChartByPatternProps {
   data: any
@@ -23,7 +23,7 @@ const ExpandableBarChartByPattern = (
   }
 
   // TODO
-  const carouselItems: CarouselItem[] = []
+  const carouselEntries: CarouselEntry[] = []
 
   return (
     <div className="m-8">
@@ -124,7 +124,7 @@ const ExpandableBarChartByPattern = (
               term={term}
               onClick={() => setOpenIndex(undefined)}
               entryId={entryId}
-              carouselItems={carouselItems}
+              carouselEntries={carouselEntries}
             />
           )}
         </div>

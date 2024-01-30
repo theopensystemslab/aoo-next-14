@@ -100,7 +100,7 @@ export enum TenureType {
   other = "Other",
 }
 
-export type CarouselItem = Pick<Entry, "dates" | "location" | "name" | "slug">
+export type CarouselEntry = Pick<Entry, "dates" | "location" | "name" | "slug">
 
 export type EntryType = {
   title: string
