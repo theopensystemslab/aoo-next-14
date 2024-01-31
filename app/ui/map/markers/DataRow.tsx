@@ -1,7 +1,7 @@
 import { backgroundColorClasses } from "./styles"
-import { PatternClassTotal } from "./types"
+import { PatternClassTotal } from "./MarkerChart"
 
-interface Props {
+type Props = {
   patternClassTotal: PatternClassTotal
   showLabels: boolean
 }

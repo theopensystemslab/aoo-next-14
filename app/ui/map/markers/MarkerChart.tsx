@@ -1,12 +1,19 @@
 import DataRow from "./DataRow"
-import { PatternClassTotal } from "./types"
+import { PatternClass } from "@/app/utils/sanity/types"
 
-interface Props {
+export type PatternClassTotal = {
+  name: string | undefined
+  meta: PatternClass | undefined
+  avgObligations: number
+  avgRights: number
+}
+
+type Props = {
   data: PatternClassTotal[]
   showLabels: boolean
 }
 
-const BarChartByPatternClass = (props: Props) => {
+const MarkerChart = (props: Props) => {
   const { data: totalsByPatternClass, showLabels } = props
 
   return (
@@ -31,4 +38,4 @@ const BarChartByPatternClass = (props: Props) => {
   )
 }
 
-export default BarChartByPatternClass
+export default MarkerChart

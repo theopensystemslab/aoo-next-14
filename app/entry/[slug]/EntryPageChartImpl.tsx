@@ -1,19 +1,27 @@
-import ExpandableRow from "./ExpandableRow"
+"use client"
+import { useWindowDimensions } from "@/app/utils/dom"
+import { ChevronUp } from "@carbon/icons-react"
+import "client-only"
+import clsx from "clsx"
 import { useState } from "react"
-import { PatternIcon } from "../PatternIcon"
-import { backgroundColorClasses, hoverColorClasses } from "./styles"
-import { CarouselEntry } from "@/app/utils/sanity/types"
+import { PatternIcon } from "../../ui/PatternIcon"
+import { Tag } from "../../ui/Tag"
+import { Carousel } from "../../ui/carousel/Carousel"
+import {
+  backgroundColorClasses,
+  descriptionBackgroundColorClasses,
+  hoverColorClasses,
+} from "../../ui/map/markers/styles"
 
-interface ExpandableBarChartByPatternProps {
-  data: any
-  entryId: string | undefined
-  showLabels: boolean
+type Props = {
+  augmentedTerms: any[]
 }
 
-const ExpandableBarChartByPattern = (
-  props: ExpandableBarChartByPatternProps
-) => {
-  const { data: formattedTerms, entryId, showLabels } = props
+const EntryPageChartImpl = (props: Props) => {
+  const { augmentedTerms } = props
+
+  const { width } = useWindowDimensions()
+  const showLabels = width && width > 450 ? true : false
   const gridCols = showLabels ? 8 : 5
 
   const [openIndex, setOpenIndex] = useState<number | undefined>(undefined)
@@ -21,9 +29,6 @@ const ExpandableBarChartByPattern = (
   const handleClick = (i: number) => {
     i === openIndex ? setOpenIndex(undefined) : setOpenIndex(i)
   }
-
-  // TODO
-  const carouselEntries: CarouselEntry[] = []
 
   return (
     <div className="m-8">
@@ -35,7 +40,7 @@ const ExpandableBarChartByPattern = (
           Rights
         </div>
       </div>
-      {formattedTerms.map((term: any, i: number) => (
+      {augmentedTerms.map((term: any, i: number) => (
         <div className="flex flex-col" key={`row-${term.name}-${i}`}>
           <div className="flex">
             <div
@@ -120,12 +125,71 @@ const ExpandableBarChartByPattern = (
             </div>
           </div>
           {openIndex === i && (
-            <ExpandableRow
-              term={term}
-              onClick={() => setOpenIndex(undefined)}
-              entryId={entryId}
-              carouselEntries={carouselEntries}
-            />
+            <div
+              className={`flex flex-col h-fit w-full text-black ${
+                term.patternClassName
+                  ? descriptionBackgroundColorClasses[term.patternClassName]
+                  : "bg-gray-200"
+              } cursor-pointer`}
+              id="row-expandable-description"
+              onClick={() => handleClick(i)}
+            >
+              <div className="px-4 pb-4">
+                <div className="flex justify-between items-start mb-4">
+                  <PatternIcon
+                    className="mt-4"
+                    size="32"
+                    pattern={{ iconUrl: term.patternIconUrl }}
+                  />
+                  <div className="flex justify-between items-center">
+                    <ChevronUp
+                      size={32}
+                      className={`${
+                        backgroundColorClasses[term.patternClassName]
+                      } bg-opacity-20 h-10 w-10 p-2`}
+                    />
+                    <p className="text-xs sm:text-sm text-right pl-4">
+                      {term.patternClassName} {term.type.toLowerCase()}
+                    </p>
+                  </div>
+                </div>
+                <h2 className="text-base sm:text-lg">{term.name}</h2>
+                <p className="text-xs sm:text-sm mb-2 sm:mb-4">
+                  {term.meta?.description}
+                </p>
+                {term?.description && (
+                  <div>
+                    <h3>How it applies here</h3>
+                    <p className="text-xs sm:text-sm">{term?.description}</p>
+                  </div>
+                )}
+                {term?.legalMechanisms && (
+                  <div className="mt-4 flex gap-4">
+                    {term.legalMechanisms.map((mechanism: string) => (
+                      <Tag
+                        key={mechanism}
+                        className={`${
+                          backgroundColorClasses[term.patternClassName]
+                        } bg-opacity-20`}
+                      >
+                        {mechanism}
+                      </Tag>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {augmentedTerms[i].relatedEntriesByPattern.length > 0 && (
+                <Carousel
+                  data={augmentedTerms[i].relatedEntriesByPattern}
+                  title="Other places that use this pattern"
+                  cardClassNames={clsx(
+                    `${
+                      backgroundColorClasses[term.patternClassName]
+                    } bg-opacity-20`
+                  )}
+                />
+              )}
+            </div>
           )}
         </div>
       ))}
@@ -133,4 +197,4 @@ const ExpandableBarChartByPattern = (
   )
 }
 
-export default ExpandableBarChartByPattern
+export default EntryPageChartImpl

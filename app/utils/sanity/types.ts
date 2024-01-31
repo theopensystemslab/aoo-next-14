@@ -18,10 +18,12 @@ export type Term = {
   rightsIntensity?: IntensityRange
   obligationIntensity?: IntensityRange
   strength: IntensityRange
+  termLegalMechanisms: Record<string, any>
 }
 
 export type Pattern = {
   _id: string
+  _ref: string
   name: string
   description: string
   class: PatternClass
@@ -31,6 +33,7 @@ export type Pattern = {
 }
 
 export type PatternClass = {
+  _ref: string
   name: string
   description: string
   order: number

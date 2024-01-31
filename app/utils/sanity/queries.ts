@@ -1,11 +1,7 @@
-// import { pipe } from "fp-ts/lib/function"
 import { groq } from "next-sanity"
 import { client } from "./client"
 import { CarouselEntry, Entry, Pattern, PatternClass } from "./types"
 import { flow } from "fp-ts/lib/function"
-// import { O, RA } from "./fp"
-// import { trpc } from "./trpc"
-// import { Entry } from "./types"
 
 export const entriesQuery = groq`
   *[_type == "entry"]
@@ -50,17 +46,6 @@ export const patternsWithClassQuery = groq`
 
 export const getPatternsWithClass = () =>
   client.fetch<Pattern[]>(patternsWithClassQuery)
-
-// export const useGetEntryFromSlug = () => {
-//   const { data: entries } = trpc.entries.useQuery()
-
-//   return (slug: string | string[] | undefined): Entry | null =>
-//     pipe(
-//       entries ?? [],
-//       RA.findFirst((entry) => entry?.slug?.current === slug),
-//       O.toNullable
-//     )
-// }
 
 export const patternInfoQuery = groq`
   *[_type == "patternClass"] {

@@ -139,13 +139,15 @@ const EntryTypeAccordion = () => {
       itemChange={handleEntryTypeChange}
       items={pipe(
         entryTypeData,
-        A.map((entryType) => ({
-          checked: selectedEntryType === entryType.value,
-          _id: entryType.value,
-          displayText: entryType.title,
-          data: entryType,
-          icon: getEntryTypeIcon(entryType),
-        }))
+        A.map((entryType) => {
+          return {
+            checked: selectedEntryType === entryType.value,
+            _id: entryType.value,
+            displayText: entryType.title,
+            data: entryType,
+            icon: getEntryTypeIcon(entryType),
+          }
+        })
       )}
     />
   )
@@ -205,13 +207,15 @@ const PatternClassAccordion = ({ patterns, patternClasses }: Props) => {
     e.target.checked ? selectPattern(pattern) : deselectPattern(pattern)
   }
 
-  const buildAccordionItemData = (pattern: Pattern): AccordionItemData => ({
-    checked: patternNames.includes(pattern.name),
-    _id: pattern._id,
-    displayText: pattern.name,
-    data: pattern,
-    icon: <PatternIcon size={32} pattern={pattern} className="mr-4" />,
-  })
+  const buildAccordionItemData = (pattern: Pattern): AccordionItemData => {
+    return {
+      checked: patternNames.includes(pattern.name),
+      _id: pattern._id,
+      displayText: pattern.name,
+      data: pattern,
+      icon: <PatternIcon size={32} pattern={pattern} className="mr-4" />,
+    }
+  }
 
   return (
     <>

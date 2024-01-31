@@ -8,7 +8,8 @@ import { getFormattedTenureTypes } from "@/app/utils/sanity/entry"
 import { ArrowRight } from "@carbon/icons-react"
 import { useState } from "react"
 import { Marker as MapboxMarker, Popup } from "react-map-gl"
-import Chart from "../../chart/Chart"
+import MarkerChart from "./MarkerChart"
+import _ from "lodash"
 // import { useGetEntryFromSlug } from "@/lib/queries"
 // import _ from "lodash"
 // import { getFormattedTenureTypes } from "@/lib/entry"
@@ -29,6 +30,54 @@ const Marker = (props: Props) => {
 
   const [showPopup, setShowPopup] = useState<boolean>(false)
 
+  const terms = entry.terms
+
+  // Format the list of individual terms that apply to this entry
+  let formattedTerms = _(terms)
+    .map((term: any) => ({
+      pattern: _.find(patterns, ["_id", term.pattern?._ref]),
+      patternName: _.find(patterns, ["_id", term.pattern?._ref])?.name,
+      type: _.capitalize(_.find(patterns, ["_id", term.pattern?._ref])?.type),
+      strength: term.strength, // 1-5
+      description: term.description,
+      legalMechanisms: term.termLegalMechanisms?.map(
+        (mechanism: Record<string, any>) => mechanism.name
+      ),
+    }))
+    .map((term: any) => ({
+      meta: term.pattern,
+      name: term.patternName,
+      patternClassName: _.find(patternClasses, [
+        "_id",
+        term.pattern?.class?._ref,
+      ])?.name,
+      patternClassOrder: _.find(patternClasses, [
+        "_id",
+        term.pattern?.class?._ref,
+      ])?.order,
+      patternIconUrl: term.pattern?.iconUrl,
+      type: term.type === "Limitation" ? "Obligation" : term.type,
+      strength: term.strength,
+      description: term.description,
+      legalMechanisms: term.legalMechanisms,
+    }))
+    .sortBy("patternClassOrder", "name")
+    .value()
+  // Rollup the individual terms by their pattern class
+  let totalsByPatternClass = _(formattedTerms)
+    .groupBy("patternClassName")
+    .map((terms: any) => ({
+      terms: terms,
+      meta: _.find(patternClasses, ["_id", terms[0].meta?.class._ref]),
+      name: terms[0].patternClassName,
+      avgRights: _(terms).filter({ type: "Right" }).meanBy("strength"),
+      avgObligations: _(terms)
+        .filter({ type: "Obligation" })
+        .meanBy("strength"),
+    }))
+    .sortBy("meta.order")
+    .value()
+
   const PopupContent = () => (
     <div className="w-[320px] sm:w-[500px]">
       <h2 className="text-lg sm:text-xl">{entry?.name}</h2>
@@ -36,13 +85,7 @@ const Marker = (props: Props) => {
         {getFormattedTenureTypes(entry?.tenureType)}
       </span>
       {entry.terms?.length && (
-        <Chart
-          rollupToPatternClass={true}
-          showLabels={true}
-          terms={entry?.terms}
-          patterns={patterns}
-          patternClasses={patternClasses}
-        />
+        <MarkerChart showLabels={true} data={totalsByPatternClass} />
       )}
       <Link
         href={`/entry/${encodeURIComponent(slug)}`}
