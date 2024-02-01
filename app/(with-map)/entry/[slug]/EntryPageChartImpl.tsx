@@ -4,14 +4,14 @@ import { ChevronUp } from "@carbon/icons-react"
 import "client-only"
 import clsx from "clsx"
 import { useState } from "react"
-import { PatternIcon } from "../../ui/PatternIcon"
-import { Tag } from "../../ui/Tag"
-import { Carousel } from "../../ui/carousel/Carousel"
+import { PatternIcon } from "../../../ui/PatternIcon"
+import { Tag } from "../../../ui/Tag"
+import { Carousel } from "../../../ui/carousel/Carousel"
 import {
   backgroundColorClasses,
   descriptionBackgroundColorClasses,
   hoverColorClasses,
-} from "../../ui/map/markers/styles"
+} from "../../../ui/map/markers/styles"
 
 type Props = {
   augmentedTerms: any[]

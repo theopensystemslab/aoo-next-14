@@ -1,6 +1,13 @@
 import { groq } from "next-sanity"
 import { client } from "./client"
-import { CarouselEntry, Entry, Pattern, PatternClass } from "./types"
+import {
+  CarouselEntry,
+  Entry,
+  Page,
+  Pattern,
+  PatternClass,
+  PatternInfo,
+} from "./types"
 import { flow } from "fp-ts/lib/function"
 
 export const entriesQuery = groq`
@@ -71,6 +78,9 @@ export const patternInfoQuery = groq`
   } | order(order)
 `
 
+export const getPatternInfo = () =>
+  client.fetch<PatternInfo[]>(patternInfoQuery)
+
 export const relatedEntriesByTenureTypeQuery = (
   tenureTypes: string[] | undefined,
   id: string | undefined
@@ -104,6 +114,8 @@ export const getContributors = () => client.fetch<string[]>(contributorsQuery)
 
 export const pageQuery = (pageSlug: string | undefined) =>
   groq`*[_type == "page" && slug == "${pageSlug}"][0]`
+
+export const getPage = flow(pageQuery, (q) => client.fetch<Page>(q))
 
 export const footerLogosQuery = groq`*[_type == "footerLogo"] {..., logo { asset-> { url } }} | order(order)`
 
